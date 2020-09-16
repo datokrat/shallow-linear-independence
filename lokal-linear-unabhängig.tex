@@ -1,0 +1,245 @@
+\documentclass[a4paper]{scrartcl}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage[ngerman]{babel}
+\usepackage{amsmath, amssymb}
+\usepackage[amsmath, amsthm, thmmarks]{ntheorem}
+\usepackage{mathtools}
+\usepackage{physics}
+\usepackage{microtype}
+
+% For inkscape-figures support
+\usepackage{import}
+\usepackage{xifthen}
+\usepackage{pdfpages}
+\usepackage{transparent}
+
+\newcommand{\incfig}[1]{%
+    \def\svgwidth{\columnwidth}
+    \import{./figures/}{#1.pdf_tex}
+}
+\pdfsuppresswarningpagegroup=1
+
+\theoremstyle{break}
+\theorembodyfont{\normalfont}
+\theoremsymbol{\ensuremath{\Diamond}}
+\newtheorem{corollary}{Korollar}
+\newtheorem{remark}{Bemerkung}
+\newtheorem{remdef}{Bemerkung/Definition}
+\newtheorem{theorem}{Satz}
+\newtheorem{example}{Beispiel}
+\newtheorem{definition}{Definition}
+
+\DeclarePairedDelimiter{\prn}{\lparen}{\rparen}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\F}{\mathbb{F}}
+
+\newcommand{\ccat}[1]{\textsf{#1}}
+\newcommand{\cat}[1]{\mathcal{#1}}
+\newcommand{\setcat}{\ccat{Set}}
+
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\coker}{coker}
+
+\begin{document}
+\title{$k$-linear unabhängige Mengen}
+\author{Paul Reichert}
+\maketitle
+
+\section{Einführung}
+
+\begin{definition}
+  Sei $n \in \N$. Eine Menge $M \subseteq \F_2^n$ heißt $k$-linear unabhängig, wenn
+  jede Teilmenge von $M$ mit höchstens $k$ Elementen linear unabhängig ist.
+  Die Kardinalität der größten solchen Menge $M$ wird mit $x_k(n) \coloneqq \abs{M}$ bezeichnet.
+\end{definition}
+
+\begin{example} \label{ex1}
+  $n + 1$ verschiedene Elemente sind immer linear abhängig. Wenn $n < k$ ist, folgt daraus, dass
+  $x_k(n) = n$ ist. Dazu wähle man $M$ als Basis von $\F_2^n$.
+\end{example}
+
+\begin{example}
+  Jede Teilmenge von $\F_2^n$ ist $2$-linear unabhängig, solange sie nicht den Nullvektor enthält.
+\end{example}
+
+\section{Der Fall $k = 3$}
+
+\begin{theorem}
+  Es sei $n \in \N$. Dann ist $x_3(n) = 2^{n-1}$.
+\end{theorem}
+\begin{proof}
+  Zuerst bemerken wir, dass die Aussage sich mit Beispiel \ref{ex1} verträgt.
+
+  Es sei $N$ eine beliebige Untergruppe von $\F_2^n$, die Index $2$ hat.
+  (Beispielsweise können wir die Untergruppe aller Vektoren mit einer geraden Anzahl an Einsen betrachten.)
+
+  Nun zeigen wir, dass $M \coloneqq N^c$ eine $3$-linear unabhängige Menge ist.
+  Keine nichttriviale $\F_2$-Linearkombination von einem oder zwei Elementen aus $M$ kann $0$ ergeben.
+  Wir müssen also nur noch Linearkombinationen dreier Elemente $m_1, m_2, m_3 \in M$ betrachten.
+
+  Nun sind aber $m_1 + N, m_2 + N$ und $m_3 + N$ in $F_2^n / N \cong \Z / 2\Z$ ein und dasselbe von $0 + N$ verschiedene Element der Ordnung 2.
+  Also ist $m_1 + m_2 + m_3 + N$ von $N$ verschieden, weshalb $m_1 + m_2 + m_3$ insbesondere nicht $0$ ergeben kann.
+
+  Damit ist $M$ tatsächlich $3$-linear unabhängig. Wegen $\abs{M} = 2^{n-1}$ ist $x_3(n) \ge 2^{n-1}$.
+
+  Wenn eine noch größere $3$-linear unabhängige Menge $M^\prime$ in $\F_2^n$ existierte,
+  dann wähle ein $m \in M^\prime$. Wir erhalten durch Addition von $m^\prime \in M^\prime \setminus \{m\}$
+  noch $\abs{M^\prime} - 1$ paarweise verschiedene Vektoren,
+  die sich als Summe genau zweier (von $0$ verschiedener) Vektoren aus $M^\prime$ schreiben lassen.
+
+  Wir unterscheiden nun zwei Fälle, um beide zum Widerspruch zu führen.
+
+  Zuerst nehmen wir an, es gäbe ein solches $m^\prime$, sodass $m + m^\prime$ in $M^\prime$ liegt.
+  Dann ist aber $m + m^\prime + (m + m^\prime) = 0$, im Widerspruch dazu, dass $M^\prime$
+  $3$-linear unabhängig ist.
+
+  Es bleibt also nur noch der Fall, dass alle oben genannten $\abs{M^\prime} - 1$ Vektoren
+  außerhalb von $M^\prime$ liegen. Dann gilt aber
+  \[
+    \abs{M^\prime} - 1 + \abs{M^\prime} \le \F_2^n,
+  \]
+  was aber nicht sein kann, weil $M^\prime$ mehr als halb so groß wie $\F_2^n$ ist.
+  Widerspruch.
+\end{proof}
+
+\section{Der Fall $k > 3$}
+
+Für diesen Fall kenne ich keine allgemeine Formel, aber immerhin eine erste Abschätzung nach unten. Zunächst aber ein erstes Beispiel
+für eine interessante $k$-linear unabhängige Menge.
+
+\begin{example}
+  Die Vektoren $1000, 0100, 0010, 0001, 1111$ in $\F_2^4$ sind $4$-linear unabhängig. Das lässt sich leicht mit einer Fallunterscheidung
+  danach machen, ob die Teilmenge mit höchstens vier Elementen $1111$ enthält oder nicht. Besser geht nicht, $x_4(4) = 5$.
+\end{example}
+
+\begin{theorem}
+  Es seien $m, n \in \N$ und $k \in \N$. Dann gilt:
+  \[
+    x_k(m + n) \ge x_k(m) x_k(n)
+  .\]
+\end{theorem}
+\begin{proof}
+  Sind $M \subseteq \F_2^m, N \subseteq \F_2^n$ zwei $k$-linear unabhängige Teilmengen, dann ist
+  \[
+    \{ (w, 0), (0, v) \in \F_2^{m+n} \mid w \in M, v \in N \}
+  \]
+  eine $k$-linear unabhängige Menge mit $\abs{M} + \abs{N}$ Elementen.
+\end{proof}
+
+\begin{theorem}
+  Es seien $m, n \in \N$, $k \in \N$ und $M \subseteq \F_2^m$ und $N \subseteq \F_2^n$ $k$-linear unabhängige Teilmengen.
+  Definiere für $v\in N, w \in M$
+  \[
+    vw \coloneqq \{ (v_1 w, v_2 w, \ldots, v_n w) \in \F_2^{mn}
+  .\]
+  
+  Dann ist $MN$ eine $k$-linear unabhängige Teilmenge und bezeugt (wenn $\abs{M} = x_k(m)$), dass
+  \[
+    x_k(mn) \ge x_k(m) x_k(n)
+  .\]
+\end{theorem}
+\begin{proof}
+  Wenn $MN$ nicht $k$-linear unabhängig wäre, würden sich in $MN$ höchstens $k$ verschiedene Vektoren $v^{(i)}w^{(i)}$ zu Null aufaddieren.
+  Für alle als $w^{(i)}$ vorkommenden $w \in M$ gilt aufgrund der $k$-linearen Unabhängigkeit von $N$:
+  \[
+    \sum_{w^{(j)}=w} v^{(j)}w^{(j)} = \underbrace{\left(\sum_{w^{(j)} = w} v^{(j)}\right)}_{\ne 0}w \ne 0
+  .\]
+  Für $w = w^{(1)}$ existiert zum Beispiel eine Stelle $l$ mit
+  \[
+    \sum_{w^{(j)} = w^{(1)}} v^{(j)}_l = 1
+  .\]
+  
+  Dann gilt für den $l$-ten $m$-Bit-Block in $\sum v^{(i)} w^{(i)}$:
+  \[
+    \sum v^{(i)}_l w^{(i)} = \sum_{w \in M} \left(\sum_{w^{(j)} = w} v^{(j)}_l\right)w = \sum_{w\in A} w
+  ,\]
+  wobei
+  \[
+    A \coloneqq \left\{ w\in M \mid \sum_{w^{(j)} = w} v^{(j)}_l = 1 \right\}
+  .\]
+  
+  $A$ enthält mindestens $w^{(1)}$, aber höchstens $k$ verschiedene Elemente.
+  Weil $M$ $k$-linear unabhängig ist, ist also $\sum_{w\in A} w \ne 0$.
+
+  Damit ist gezeigt, dass der $l$-te $m$-Bit-Block von $\sum v^{(i)} w^{(i)}$ von $0$ verschieden sein muss,
+  und wir folgern, dass $MN$ tatsächlich $k$-linear unabhängig ist.
+\end{proof}
+
+\section{Cliquen}
+
+Wie schon oben angedeutet wurde, gibt es eine eindeutige maximale $k$-linear unabhängige Teilmenge von $\F_2^k$. Diese ist gegeben durch eine Basis, zu der man noch die Summe aller Basisvektoren hinzunimmt. Diese Menge hat eine sehr interessante Symmetrieeigenschaft: Jede Permutation dieser $k+1$ Vektoren kann zu einem Vektorraumautomorphismus fortgesetzt werden.
+
+\begin{remdef}
+  Für jede Teilmenge $M \subseteq \F_2^n$ mit $k+1$ Elementen ($k \in \N_0$) sind folgende Aussagen äquivalent:
+  \begin{enumerate}
+  \item $M$ ist eine maximale $k$-linear unabhängige Teilmenge der $k$-dimensionalen linearen Hülle $\left<M\right>$ von $M$.
+  \item $\sum M = 0$ und es gibt $m\in M$, sodass $M\setminus\{m\}$ linear unabhängig ist.
+  \item $\sum M = 0$ und für alle $m \in M$ ist $M\setminus\{m\}$ linear unabhängig.
+  \item $M$ ist eine minimal linear abhängige Menge.
+  \end{enumerate}
+
+  Eine solche Menge nennen wir $k+1$-Clique, Clique der Größe $k+1$ oder Clique der Dimension $k$.
+
+  Hier ergibt sich eine Analogie zu affinen und projektiven Räumen. So, wie es in einem projektiven Raum
+  vom Auge des Betrachters abhängt, welche Punkte affin sind und welche im Unendlichen liegen,
+  ist hier die Aufteilung von $M$ in eine linear unabhängige Teilmenge und einen zusätzlichen Punkt $m$ willkürlich.
+\end{remdef}
+
+An der letzten Charakterisierung sehen wir etwas weiteres Interessantes.
+Eine Menge ist genau dann $k$-linear, wenn sie nur Cliquen einer Dimension größer als $k$ enthält.
+Außerdem ist eine Menge genau dann linear unabhängig, wenn sie keine Clique enthält.
+
+Die letztere Beobachtung ist interessant, denn sie stellt einen Zusammenhang zwischen der Anzahl an Cliquen (keine)
+und der Anzahl an Elementen einer linear unabhängigen Menge $M \subseteq \F_2^n$ (entspricht der Dimension von $\left<M\right>$) her.
+Außerdem lässt sich jede Menge $M \subseteq \F_2^n$ durch wiederholtes Entfernen eines Punktes in einer beliebigen Clique
+zu einer linear unabhängigen Menge mit gleicher linearer Hülle verkleinern.
+Wie viele Punkte müssen wir entfernen? Naja, eben so viele, bis keine Cliquen mehr übrig sind.
+Vielleicht überschneiden sich einige Cliquen auch, sodass wir durch eine geschickte Auswahl die Zahl der entfernten Punkte
+manipulieren könnten.
+
+Oder auch nicht, denn andererseits wissen wir, dass wir am Ende immer bei einer linear unabhängigen Menge mit genau $\dim \left<M\right>$
+Elementen ankommen, sodass wir in jedem Fall genau $\abs{M} - \dim \left<M\right>$ Elemente entfernen werden müssen!
+
+Das ist interessant. Was passiert dann, wenn sich zwei Cliquen überschneiden (das nenne ich verquickte Cliquen)?
+Die Zahl der zu entfernenden Punkte scheint nämlich sehr wohl davon davon abzuhängen, ob ein Punkt in der Schnittmenge entfernt wird
+(womit zwei Cliquen mit einer Klappe geschlagen würden) oder jeweils ein Punkt aus jeder Clique, der nicht im Schnitt liegt.
+
+Um zu verstehen, was passiert, hier ein Beispiel.
+\begin{example}
+  Wir betrachten die Menge $M \subseteq \F_2^5$, die aus zwei verquickten $5$-Cliquen besteht:
+  \begin{itemize}
+    \item 10000, 01000, 00100, 11100 und
+    \item 00001, 00010, 00100, 00111.
+  \end{itemize}
+  Die Cliquen überschneiden sich in $00100$.
+
+  Wird $00100$ aus $M$ entfernt, so bleiben $10000, 01000, 11100, 00111, 00010, 00001$ übrig.
+  Es stellt sich heraus, dass diese sechs Vektoren keineswegs linear unabhängig sind, sondern
+  eine große $6$-Clique bilden, die beim Design unserer verquickten $5$-Cliquen als
+  Nebenprodukt entstanden ist.
+\end{example}
+Immer, wenn zwei Cliquen verquickt sind, muss mindestens eine weitere Clique existieren, damit die Zahl der zu entfernenden Punkte
+von der konkreten Wahl dieser Punkte unabhängig ist.
+
+Ich vermute hier tiefe Einsichten in die Struktur der Cliquen $k$-linear unabhängiger Mengen. Es gibt viele Fragen, die man anknüpfend an
+obige Ideen untersuchen könnte:
+\begin{itemize}
+  \item (Für welche $n$) Gibt es $5$-linear unabhängige Mengen, die als $4$-linear unabhängige Mengen in $\F_2^n$ maximal sind?
+  \item Welche Gesetzmäßigkeiten gelten für den Schnitt von Cliquen?
+  \item Lässt sich aus der Invarianz der Zahl zu entfernender Punkte etwas Interessantes über die Überlagerungsstruktur von Cliquen
+    folgern, ähnlich den Sylowsätzen für Gruppen?
+  \item Welche Kombinationen von Cliquen können in welchen Dimensionen auftreten?
+  \item Wie groß können Teilmengen werden, deren Cliquengröße durch $k$ nach oben statt nach unten eingeschränkt ist?
+  \item \ldots
+\end{itemize}
+
+\end{document}
